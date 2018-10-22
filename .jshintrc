@@ -1,5 +1,6 @@
 {
   "node": true,
-  "browser": true,
-  "predef": ["describe", "it", "before"]
+  "browser": false,
+  "predef": ["describe", "it", "before", "beforeEach", "after", "afterEach", "fetch"],
+  "esversion": 6
 }

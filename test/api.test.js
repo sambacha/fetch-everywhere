@@ -1,51 +1,47 @@
-/*global fetch*/
 "use strict";
 
-require('es6-promise').polyfill();
-require('../fetch-npm-node');
-var expect = require('chai').expect;
-var nock = require('nock');
-var good = 'hello world. 你好世界。';
-var bad = 'good bye cruel world. 再见残酷的世界。';
+import '../fetch-npm-node';
+import { expect } from 'chai';
+import nock from 'nock';
 
-function responseToText(response) {
-	if (response.status >= 400) throw new Error("Bad server response");
-	return response.text();
-}
+let handleErrors = (response) => {
+	if (!response.ok) throw Error(response.statusText);
+	return response;
+};
 
-describe('fetch', function() {
-
-	before(function() {
+describe('Fetch test', () => {
+	before(() => {
 		nock('https://mattandre.ws')
-			.get('/succeed.txt')
-			.reply(200, good);
+			.get('/succeed')
+			.reply(200, 'GoodResponse');
+		
 		nock('https://mattandre.ws')
-			.get('/fail.txt')
-			.reply(404, bad);
+			.get('/fail')
+			.reply(404, 'BadResponse');
 	});
-
-	it('should be defined', function() {
+	
+	it('Should be defined', () => {
 		expect(fetch).to.be.a('function');
 	});
+	
+	/* jshint ignore:start */
+	it('should facilitate the making of request', async () => {
+		let response = await fetch('https://mattandre.ws/succeed')
+														.then(handleErrors)
+														.catch();
 
-	it('should facilitate the making of requests', function(done) {
-		fetch('//mattandre.ws/succeed.txt')
-			.then(responseToText)
-			.then(function(data) {
-				expect(data).to.equal(good);
-				done();
-			})
-			.catch(done);
+		expect(response.status).to.equal(200);
+		expect(await response.text()).to.equal('GoodResponse');
 	});
-
-	it('should do the right thing with bad requests', function(done) {
-		fetch('//mattandre.ws/fail.txt')
-			.then(responseToText)
-			.catch(function(err) {
-				expect(err.toString()).to.equal("Error: Bad server response");
-				done();
-			})
-			.catch(done);
+	
+	it('should do the right thing with bad requests', async () => {
+		let response = await fetch('https://mattandre.ws/fail')
+													 .then(handleErrors)
+													 .catch((err) => {
+													 	 return err;
+													 });
+		
+		expect(response.toString()).to.equal('Error: Not Found');
 	});
-
+		/* jshint ignore:end */
 });
