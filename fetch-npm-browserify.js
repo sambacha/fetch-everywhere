@@ -3,5 +3,7 @@
 //
 // Return that as the export for use in Webpack, Browserify etc.
 require('whatwg-fetch');
-var globalObj = typeof self !== 'undefined' && self || this;
-module.exports = globalObj.fetch.bind(globalObj);
+// var globalObj = typeof self !== 'undefined' && self || this;
+// module.exports = globalObj.fetch.bind(globalObj);
+var globalObject = typeof self === 'undefined' ? global : self;
+module.exports = globalObject.fetch.bind(globalObject);
