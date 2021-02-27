@@ -1,6 +1,6 @@
 {
   "name": "fetch-everywhere",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Isomorphic WHATWG Fetch API, for ALL node based environments.",
   "browser": "fetch-npm-browserify.js",
   "main": "fetch-npm-node.js",
@@ -21,7 +21,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "node-fetch": "^2.6.1",
-    "whatwg-fetch": ">=0.10.0"
+    "whatwg-fetch": "^3.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
