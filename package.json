@@ -20,7 +20,7 @@
   "homepage": "https://github.com/lucasfeliciano/fetch-everywhere/issues",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "node-fetch": "^1.0.1",
+    "node-fetch": "^2.6.1",
     "whatwg-fetch": ">=0.10.0"
   },
   "devDependencies": {
